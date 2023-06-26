@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "stm32f4xx_gpio.h": "c",
+        "iic.h": "c",
+        "stm32f4xx.h": "c",
+        "bsp_systick.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
