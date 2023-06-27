@@ -41,3 +41,4 @@
 ..\..\output\main.o: ..\..\User\IIC\iic.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 ..\..\output\main.o: ..\..\User\SHT35\sht35.h
+..\..\output\main.o: ..\..\User\Led\bsp_led.h

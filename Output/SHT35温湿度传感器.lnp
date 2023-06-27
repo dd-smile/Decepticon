@@ -47,6 +47,7 @@
 "..\..\output\iic.o"
 "..\..\output\bsp_sys.o"
 "..\..\output\sht35.o"
+"..\..\output\bsp_led.o"
 --library_type=microlib --strict --scatter "..\..\Output\SHT35ÎÂÊª¶È´«¸ÐÆ÷.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
