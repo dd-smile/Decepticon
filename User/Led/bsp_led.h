@@ -112,6 +112,7 @@
 
 
 void LED_GPIO_Config(void);
+void LED_RGB_Init(void);
 
 
 #endif

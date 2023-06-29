@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35;..\..\User\Led</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -806,6 +806,11 @@
               <FileName>sht35.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\SHT35\sht35.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\Led\bsp_led.c</FilePath>
             </File>
           </Files>
         </Group>
