@@ -26,7 +26,7 @@
 
 
 //´®¿Ú²¨ÌØÂÊ
-#define DEBUG_USART_BAUDRATE                    9600
+#define DEBUG_USART_BAUDRATE                    115200
 
 
 

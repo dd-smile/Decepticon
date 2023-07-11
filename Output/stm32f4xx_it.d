@@ -35,3 +35,6 @@
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
+..\..\output\stm32f4xx_it.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\stm32f4xx_it.o: ..\..\User\Led\bsp_led.h
+..\..\output\stm32f4xx_it.o: ..\..\User\MPU6050\mpu6050.h

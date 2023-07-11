@@ -35,3 +35,5 @@
 ..\..\output\bsp_relay.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 ..\..\output\bsp_relay.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\bsp_relay.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
+..\..\output\bsp_relay.o: ..\..\User\Led\bsp_led.h
+..\..\output\bsp_relay.o: ..\..\User\Key\bsp_key.h

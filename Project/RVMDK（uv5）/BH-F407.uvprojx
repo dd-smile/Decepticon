@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>DHT11温湿度传感器</TargetName>
+      <TargetName>云场馆</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -359,13 +359,13 @@
             <wLevel>0</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35;..\..\User\Led</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35;..\..\User\Led;..\..\User\Key;..\..\User\Relay;..\..\User\MPU6050</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -811,6 +811,26 @@
               <FileName>bsp_led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\Led\bsp_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\Key\bsp_key.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_relay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\Relay\bsp_relay.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu_iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\IIC\mpu_iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\MPU6050\mpu6050.c</FilePath>
             </File>
           </Files>
         </Group>
