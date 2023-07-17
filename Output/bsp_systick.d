@@ -1,5 +1,5 @@
 ..\..\output\bsp_systick.o: ..\..\User\SysTick\bsp_SysTick.c
-..\..\output\bsp_systick.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\bsp_systick.o: ..\..\User\systick/bsp_SysTick.h
 ..\..\output\bsp_systick.o: ..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 ..\..\output\bsp_systick.o: ..\..\Libraries\CMSIS\Include\core_cm4.h
 ..\..\output\bsp_systick.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

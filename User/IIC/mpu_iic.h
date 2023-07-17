@@ -3,7 +3,7 @@
 /****************************** Includes *****************************/
 #include "stm32f4xx.h"
 
-#include "./systick/bsp_SysTick.h"
+#include "./dwt_delay/core_delay.h" 
 #include "./usart/bsp_debug_usart.h"
 /****************************** Defines *******************************/
 
@@ -14,7 +14,7 @@
 //毫秒级延时(需要定时器支持)，或者重写Delay宏
 #define Delay 		Delay_ms
 
- 
+
 #define I2Cx_FLAG_TIMEOUT             ((uint32_t) 900) //0x1100
 #define I2Cx_LONG_TIMEOUT             ((uint32_t) (300 * I2Cx_FLAG_TIMEOUT)) //was300
  

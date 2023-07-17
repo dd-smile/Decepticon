@@ -35,4 +35,4 @@
 ..\..\output\bsp_led.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 ..\..\output\bsp_led.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\bsp_led.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-..\..\output\bsp_led.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\bsp_led.o: ..\..\User\./dwt_delay/core_delay.h

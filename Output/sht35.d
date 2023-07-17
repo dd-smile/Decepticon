@@ -41,3 +41,4 @@
 ..\..\output\sht35.o: ..\..\User\Sys\bsp_sys.h
 ..\..\output\sht35.o: ..\..\User\./usart/bsp_debug_usart.h
 ..\..\output\sht35.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\..\output\sht35.o: ..\..\User\./dwt_delay/core_delay.h

@@ -3,6 +3,7 @@
 #include "iic.h"
 #include "bsp_sys.h"
 #include "./usart/bsp_debug_usart.h"
+#include "./dwt_delay/core_delay.h"
 
 
 u8 humiture_buff1[20];

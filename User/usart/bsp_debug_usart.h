@@ -6,7 +6,7 @@
 
 
 
-//“˝Ω≈∂®“Â
+//ÂºïËÑöÂÆö‰πâ
 /*******************************************************/
 #define DEBUG_USART                             USART1
 #define DEBUG_USART_CLK                         RCC_APB2Periph_USART1
@@ -24,13 +24,14 @@
 #define DEBUG_USART_TX_SOURCE                   GPIO_PinSource9
 /************************************************************/
 
-
-//¥Æø⁄≤®Ãÿ¬ 
+#define  DEBUG_USART_IRQ                USART1_IRQn
+#define  DEBUG_USART_IRQHandler         USART1_IRQHandler
+//‰∏≤Âè£Ê≥¢ÁâπÁéá
 #define DEBUG_USART_BAUDRATE                    115200
 
 
 
 void Debug_USART_Config(void);
 //int fputc(int ch, FILE *f);
-
+void Usart_SendString( USART_TypeDef * pUSARTx, char *str);
 #endif /* __USART1_H */

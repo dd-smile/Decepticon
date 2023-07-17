@@ -35,6 +35,9 @@
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\stm32f4xx_it.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-..\..\output\stm32f4xx_it.o: ..\..\User\./systick/bsp_SysTick.h
-..\..\output\stm32f4xx_it.o: ..\..\User\Led\bsp_led.h
-..\..\output\stm32f4xx_it.o: ..\..\User\MPU6050\mpu6050.h
+..\..\output\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\..\output\stm32f4xx_it.o: ..\..\User\WIFI\esp8266.h
+..\..\output\stm32f4xx_it.o: ..\..\User\usart\bsp_wifi_usart.h
+..\..\output\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\..\output\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\..\output\stm32f4xx_it.o: ..\..\User\./usart/bsp_debug_usart.h

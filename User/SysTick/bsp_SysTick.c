@@ -3,71 +3,44 @@
   * @file    bsp_SysTick.c
   * @author  fire
   * @version V1.0
-  * @date    2013-xx-xx
-  * @brief   SysTick ÏµÍ³µÎ´ðÊ±ÖÓ10usÖÐ¶Ïº¯Êý¿â,ÖÐ¶ÏÊ±¼ä¿É×ÔÓÉÅäÖÃ£¬
-  *          ³£ÓÃµÄÓÐ 1us 10us 1ms ÖÐ¶Ï¡£     
+  * @date    2015-xx-xx
+  * @brief   SysTick ç³»ç»Ÿæ»´ç­”æ—¶é’Ÿ10usä¸­æ–­å‡½æ•°åº“,ä¸­æ–­æ—¶é—´å¯è‡ªç”±é…ç½®ï¼Œ
+  *          å¸¸ç”¨çš„æœ‰ 1us 10us 1ms ä¸­æ–­ã€‚     
   ******************************************************************************
   * @attention
   *
-  * ÊµÑéÆ½Ì¨:Ò°»ð F407-°ÔÌì»¢ STM32 ¿ª·¢°å 
-  * ÂÛÌ³    :http://www.firebbs.cn
-  * ÌÔ±¦    :https://fire-stm32.taobao.com
+  * å®žéªŒå¹³å°:é‡Žç«  STM32 F407 å¼€å‘æ¿
+  * è®ºå›    :http://www.firebbs.cn
+  * æ·˜å®    :https://fire-stm32.taobao.com
   *
   ******************************************************************************
   */
   
-#include "./systick/bsp_SysTick.h"
+#include "systick/bsp_SysTick.h"
 
-static __IO u32 TimingDelay;
- 
+
 /**
-  * @brief  Æô¶¯ÏµÍ³µÎ´ð¶¨Ê±Æ÷ SysTick
-  * @param  ÎÞ
-  * @retval ÎÞ
+  * @brief  å¯åŠ¨ç³»ç»Ÿæ»´ç­”å®šæ—¶å™¨ SysTick
+  * @param  æ— 
+  * @retval æ— 
   */
-void SysTick_Init(void)
+void SysTick_Init( void )
 {
-	/* SystemFrequency / 1000    1msÖÐ¶ÏÒ»´Î
-	 * SystemFrequency / 100000	 10usÖÐ¶ÏÒ»´Î
-	 * SystemFrequency / 1000000 1usÖÐ¶ÏÒ»´Î
+	/* SystemFrequency / 1000    1msä¸­æ–­ä¸€æ¬¡
+	 * SystemFrequency / 100000	 10usä¸­æ–­ä¸€æ¬¡
+	 * SystemFrequency / 1000000 1usä¸­æ–­ä¸€æ¬¡
 	 */
-//	if (SysTick_Config(SystemFrequency / 100000))	// ST3.0.0¿â°æ±¾
-	if (SysTick_Config(SystemCoreClock / 1000000))	// ST3.5.0¿â°æ±¾
+	if ( SysTick_Config(SystemCoreClock / 100) )	// ST3.5.0åº“ç‰ˆæœ¬
 	{ 
 		/* Capture error */ 
 		while (1);
 	}
-		// ¹Ø±ÕµÎ´ð¶¨Ê±Æ÷  
-	SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
-}
-
-/**
-  * @brief   usÑÓÊ±³ÌÐò,10usÎªÒ»¸öµ¥Î»
-  * @param  
-  *		@arg nTime: Delay_us( 1 ) ÔòÊµÏÖµÄÑÓÊ±Îª 1 * 10us = 10us
-  * @retval  ÎÞ
-  */
-void Delay_us(__IO u32 nTime)
-{ 
-	TimingDelay = nTime;	
-
-	// Ê¹ÄÜµÎ´ð¶¨Ê±Æ÷  
+  
+  // å…³é—­æ»´ç­”å®šæ—¶å™¨  
+	//SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
+	
+  // ä½¿èƒ½æ»´ç­”å®šæ—¶å™¨  10msä¸­æ–­ä¸€æ¬¡
 	SysTick->CTRL |=  SysTick_CTRL_ENABLE_Msk;
-
-	while(TimingDelay != 0);
-}
-
-/**
-  * @brief  »ñÈ¡½ÚÅÄ³ÌÐò
-  * @param  ÎÞ
-  * @retval ÎÞ
-  * @attention  ÔÚ SysTick ÖÐ¶Ïº¯Êý SysTick_Handler()µ÷ÓÃ
-  */
-void TimingDelay_Decrement(void)
-{
-	if (TimingDelay != 0x00)
-	{ 
-		TimingDelay--;
-	}
+  
 }
 /*********************************************END OF FILE**********************/

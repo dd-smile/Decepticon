@@ -19,10 +19,10 @@
 
 #if USE_DWT_DELAY
 
-//#define Delay_ms(ms)  	CPU_TS_Tmr_Delay_MS(ms)
-//#define Delay_us(us)  	CPU_TS_Tmr_Delay_US(us)
-///* 最大延时 60s=2的32次方/72000000 */
-//#define Delay_s(s)  	  CPU_TS_Tmr_Delay_S(s)
+#define Delay_ms(ms)  	CPU_TS_Tmr_Delay_MS(ms)
+#define Delay_us(us)  	CPU_TS_Tmr_Delay_US(us)
+/* 最大延时 60s=2的32次方/72000000 */
+#define Delay_s(s)  	  CPU_TS_Tmr_Delay_S(s)
 
 /* 获取内核时钟频率 */
 #define GET_CPU_ClkFreq()       (SystemCoreClock)
@@ -31,7 +31,7 @@
    这样每次调用函数都会初始化一遍。
    把本宏值设置为0，然后在main函数刚运行时调用CPU_TS_TmrInit可避免每次都初始化 */  
 
-#define CPU_TS_INIT_IN_DELAY_FUNCTION   1
+#define CPU_TS_INIT_IN_DELAY_FUNCTION   0
 
 
 /*******************************************************************************

@@ -4,23 +4,46 @@
   * @author  fire
   * @version V1.0
   * @date    2015-xx-xx
-  * @brief   ÖØ¶¨Ïòc¿âprintfº¯Êıµ½usart¶Ë¿Ú
+  * @brief   é‡å®šå‘cåº“printfå‡½æ•°åˆ°usartç«¯å£
   ******************************************************************************
   * @attention
   *
-  * ÊµÑéÆ½Ì¨:Ò°»ğ  STM32 F407 ¿ª·¢°å  
-  * ÂÛÌ³    :http://www.firebbs.cn
-  * ÌÔ±¦    :https://fire-stm32.taobao.com
+  * å®éªŒå¹³å°:é‡ç«  STM32 F407 å¼€å‘æ¿  
+  * è®ºå›    :http://www.firebbs.cn
+  * æ·˜å®    :https://fire-stm32.taobao.com
   *
   ******************************************************************************
   */ 
   
 #include "./usart/bsp_debug_usart.h"
-
+ \
  /**
-  * @brief  DEBUG_USART GPIO ÅäÖÃ,¹¤×÷Ä£Ê½ÅäÖÃ¡£115200 8-N-1
-  * @param  ÎŞ
-  * @retval ÎŞ
+  * @brief  é…ç½®åµŒå¥—å‘é‡ä¸­æ–­æ§åˆ¶å™¨NVIC
+  * @param  æ— 
+  * @retval æ— 
+  */
+static void NVIC_Configuration(void)
+{
+  NVIC_InitTypeDef NVIC_InitStructure;
+  
+  /* åµŒå¥—å‘é‡ä¸­æ–­æ§åˆ¶å™¨ç»„é€‰æ‹© */
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  
+  /* é…ç½®USARTä¸ºä¸­æ–­æº */
+  NVIC_InitStructure.NVIC_IRQChannel = DEBUG_USART_IRQ;
+  /* æŠ¢æ–­ä¼˜å…ˆçº§*/
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  /* å­ä¼˜å…ˆçº§ */
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  /* ä½¿èƒ½ä¸­æ–­ */
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  /* åˆå§‹åŒ–é…ç½®NVIC */
+  NVIC_Init(&NVIC_InitStructure);
+}
+ /**
+  * @brief  DEBUG_USART GPIO é…ç½®,å·¥ä½œæ¨¡å¼é…ç½®ã€‚115200 8-N-1
+  * @param  æ— 
+  * @retval æ— 
   */
 void Debug_USART_Config(void)
 {
@@ -29,16 +52,16 @@ void Debug_USART_Config(void)
 		
   RCC_AHB1PeriphClockCmd( DEBUG_USART_RX_GPIO_CLK|DEBUG_USART_TX_GPIO_CLK, ENABLE);
 
-  /* Ê¹ÄÜ UART Ê±ÖÓ */
+  /* ä½¿èƒ½ UART æ—¶é’Ÿ */
   RCC_APB2PeriphClockCmd(DEBUG_USART_CLK, ENABLE);
   
-  /* Á¬½Ó PXx µ½ USARTx_Tx*/
+  /* è¿æ¥ PXx åˆ° USARTx_Tx*/
   GPIO_PinAFConfig(DEBUG_USART_RX_GPIO_PORT,DEBUG_USART_RX_SOURCE, DEBUG_USART_RX_AF);
 
-  /*  Á¬½Ó PXx µ½ USARTx__Rx*/
+  /*  è¿æ¥ PXx åˆ° USARTx__Rx*/
   GPIO_PinAFConfig(DEBUG_USART_TX_GPIO_PORT,DEBUG_USART_TX_SOURCE,DEBUG_USART_TX_AF);
 
-  /* ÅäÖÃTxÒı½ÅÎª¸´ÓÃ¹¦ÄÜ  */
+  /* é…ç½®Txå¼•è„šä¸ºå¤ç”¨åŠŸèƒ½  */
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
@@ -47,12 +70,12 @@ void Debug_USART_Config(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(DEBUG_USART_TX_GPIO_PORT, &GPIO_InitStructure);
 
-  /* ÅäÖÃRxÒı½ÅÎª¸´ÓÃ¹¦ÄÜ */
+  /* é…ç½®Rxå¼•è„šä¸ºå¤ç”¨åŠŸèƒ½ */
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_Pin = DEBUG_USART_RX_PIN;
   GPIO_Init(DEBUG_USART_RX_GPIO_PORT, &GPIO_InitStructure);
 			
-  /* ÅäÖÃ´®DEBUG_USART Ä£Ê½ */
+  /* é…ç½®ä¸²DEBUG_USART æ¨¡å¼ */
   USART_InitStructure.USART_BaudRate = DEBUG_USART_BAUDRATE;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_1;
@@ -61,24 +84,89 @@ void Debug_USART_Config(void)
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(DEBUG_USART, &USART_InitStructure); 
   USART_Cmd(DEBUG_USART, ENABLE);
+	
+		// ä¸²å£ä¸­æ–­ä¼˜å…ˆçº§é…ç½®
+	NVIC_Configuration();
+	
+	// ä½¿èƒ½ä¸²å£æ¥æ”¶ä¸­æ–­
+	USART_ITConfig(DEBUG_USART, USART_IT_RXNE, ENABLE);
+  USART_ITConfig ( DEBUG_USART, USART_IT_IDLE, ENABLE ); //ä½¿èƒ½ä¸²å£æ€»çº¿ç©ºé—²ä¸­æ–­ 	
+}
+/*****************  å‘é€ä¸€ä¸ªå­—èŠ‚ **********************/
+void Usart_SendByte( USART_TypeDef * pUSARTx, uint8_t ch)
+{
+	/* å‘é€ä¸€ä¸ªå­—èŠ‚æ•°æ®åˆ°USART */
+	USART_SendData(pUSARTx,ch);
+		
+	/* ç­‰å¾…å‘é€æ•°æ®å¯„å­˜å™¨ä¸ºç©º */
+	while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TXE) == RESET);	
 }
 
-///ÖØ¶¨Ïòc¿âº¯Êıprintfµ½´®¿ÚDEBUG_USART£¬ÖØ¶¨Ïòºó¿ÉÊ¹ÓÃprintfº¯Êı
+/****************** å‘é€8ä½çš„æ•°ç»„ ************************/
+void Usart_SendArray( USART_TypeDef * pUSARTx, uint8_t *array, uint16_t num)
+{
+  uint8_t i;
+	
+	for(i=0; i<num; i++)
+  {
+	    /* å‘é€ä¸€ä¸ªå­—èŠ‚æ•°æ®åˆ°USART */
+	    Usart_SendByte(pUSARTx,array[i]);	
+  
+  }
+	/* ç­‰å¾…å‘é€å®Œæˆ */
+	while(USART_GetFlagStatus(pUSARTx,USART_FLAG_TC)==RESET);
+}
+
+/*****************  å‘é€å­—ç¬¦ä¸² **********************/
+void Usart_SendString( USART_TypeDef * pUSARTx, char *str)
+{
+	unsigned int k=0;
+  do 
+  {
+      Usart_SendByte( pUSARTx, *(str + k) );
+      k++;
+  } while(*(str + k)!='\0');
+  
+  /* ç­‰å¾…å‘é€å®Œæˆ */
+  while(USART_GetFlagStatus(pUSARTx,USART_FLAG_TC)==RESET)
+  {}
+}
+
+/*****************  å‘é€ä¸€ä¸ª16ä½æ•° **********************/
+void Usart_SendHalfWord( USART_TypeDef * pUSARTx, uint16_t ch)
+{
+	uint8_t temp_h, temp_l;
+	
+	/* å–å‡ºé«˜å…«ä½ */
+	temp_h = (ch&0XFF00)>>8;
+	/* å–å‡ºä½å…«ä½ */
+	temp_l = ch&0XFF;
+	
+	/* å‘é€é«˜å…«ä½ */
+	USART_SendData(pUSARTx,temp_h);	
+	while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TXE) == RESET);
+	
+	/* å‘é€ä½å…«ä½ */
+	USART_SendData(pUSARTx,temp_l);	
+	while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TXE) == RESET);	
+}
+
+///é‡å®šå‘cåº“å‡½æ•°printfåˆ°ä¸²å£DEBUG_USARTï¼Œé‡å®šå‘åå¯ä½¿ç”¨printfå‡½æ•°
 int fputc(int ch, FILE *f)
 {
-		/* ·¢ËÍÒ»¸ö×Ö½ÚÊı¾İµ½´®¿ÚDEBUG_USART */
+		/* å‘é€ä¸€ä¸ªå­—èŠ‚æ•°æ®åˆ°ä¸²å£DEBUG_USART */
 		USART_SendData(DEBUG_USART, (uint8_t) ch);
 		
-		/* µÈ´ı·¢ËÍÍê±Ï */
+		/* ç­‰å¾…å‘é€å®Œæ¯• */
 		while (USART_GetFlagStatus(DEBUG_USART, USART_FLAG_TXE) == RESET);		
 	
 		return (ch);
 }
 
-///ÖØ¶¨Ïòc¿âº¯Êıscanfµ½´®¿ÚDEBUG_USART£¬ÖØĞ´Ïòºó¿ÉÊ¹ÓÃscanf¡¢getcharµÈº¯Êı
+///é‡å®šå‘cåº“å‡½æ•°scanfåˆ°ä¸²å£DEBUG_USARTï¼Œé‡å†™å‘åå¯ä½¿ç”¨scanfã€getcharç­‰å‡½æ•°
 int fgetc(FILE *f)
 {
-		/* µÈ´ı´®¿ÚÊäÈëÊı¾İ */
+		/* ç­‰å¾…ä¸²å£è¾“å…¥æ•°æ® */
 		while (USART_GetFlagStatus(DEBUG_USART, USART_FLAG_RXNE) == RESET);
 
 		return (int)USART_ReceiveData(DEBUG_USART);

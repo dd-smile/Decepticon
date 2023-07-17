@@ -38,4 +38,4 @@
 ..\..\output\mpu6050.o: ..\..\User\./usart/bsp_debug_usart.h
 ..\..\output\mpu6050.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\mpu6050.o: ..\..\User\IIC\mpu_iic.h
-..\..\output\mpu6050.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\mpu6050.o: ..\..\User\./dwt_delay/core_delay.h

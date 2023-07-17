@@ -1,16 +1,16 @@
 /**
   ******************************************************************************
-  * @file    FMC_SDRAM/stm32f4xx_it.c 
+  * @file    Project/STM32F4xx_StdPeriph_Templates/stm32f4xx_it.c 
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    11-November-2013
+  * @version V1.5.0
+  * @date    06-March-2015
   * @brief   Main Interrupt Service Routines.
-  *         This file provides template for all exceptions handler and
-  *         peripherals interrupt service routine.
+  *          This file provides template for all exceptions handler and 
+  *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2013 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -29,29 +29,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
-#include "./systick/bsp_SysTick.h"
-#include "bsp_led.h"
-#include "mpu6050.h"
-
-#define TASK_DELAY_NUM  2       //总任务个数，可以自己根据实际情况修改
-#define TASK_DELAY_0    1000    //任务0延时 1000*1 毫秒后执行：翻转LED
-#define TASK_DELAY_1    500     //任务1延时 500*1 毫秒后执行：MPU6050任务
-
-uint32_t Task_Delay_Group[TASK_DELAY_NUM];  //任务数组，用来计时、并判断是否执行对应任务
-
-
-/* 执行任务标志：读取MPU6050数据 */
-// - 标志置 1表示读取MPU6050数据完成，需要在主循环处理MPU6050数据
-// - 标志置 0表示未完成读取MPU6050数据，需要在中断中读取MPU6050数据
-int task_readdata_finish;
-
-
-// 声明外部变量
-extern short Acel[3];
-extern short Gyro[3];
-extern float Temp;
-
-
+#include <string.h> 
+#include "esp8266.h"
+#include "./usart/bsp_debug_usart.h"
 /** @addtogroup STM32F429I_DISCOVERY_Examples
   * @{
   */
@@ -152,6 +132,9 @@ void SVC_Handler(void)
 void PendSV_Handler(void)
 {}
 
+	
+extern void TimingDelay_Decrement(void);
+
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
@@ -159,46 +142,9 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-	int i;
   
-  for(i=0; i<TASK_DELAY_NUM; i++)
-  {
-    Task_Delay_Group[i] ++;                   //任务计时，时间到后执行
-  }
-  
-  /* 处理任务0 */
-  if(Task_Delay_Group[0] >= TASK_DELAY_0)     //判断是否执行任务0
-  {
-    Task_Delay_Group[0] = 0;                  //置0重新计时
-    
-    /* 任务0：翻转LED */
-    LED2_TOGGLE;
-  }
-  
-  /* 处理任务1 */
-  if(Task_Delay_Group[1] >= TASK_DELAY_1)     //判断是否执行任务1
-  {
-    Task_Delay_Group[1] = 0;                  //置0重新计时
-    
-    /* 任务1：MPU6050任务 */
-    if( ! task_readdata_finish )
-    {
-      MPU6050ReadAcc(Acel);
-      MPU6050ReadGyro(Gyro);
-      MPU6050_ReturnTemp(&Temp);
-      
-      task_readdata_finish = 1; //标志位置1，表示需要在主循环处理MPU6050数据
-    }
-  }
-  
-  /* 处理任务2 */
-  //添加任务需要修改任务总数的宏定义 TASK_DELAY_NUM
-  //并且添加定义任务的执行周期宏定义 TASK_DELAY_x（x就是一个编号），比如 TASK_DELAY_2
-  
-  
-  
-  TimingDelay_Decrement(); //如果使用Delay_ms延时函数则需要调用这个
 }
+
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
@@ -206,6 +152,52 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f429_439xx.s).                         */
 /******************************************************************************/
 
+
+// 串口中断服务函数
+void DEBUG_USART_IRQHandler(void)
+{
+  uint8_t ucCh;
+	if ( USART_GetITStatus ( DEBUG_USART, USART_IT_RXNE ) != RESET )
+	{
+		ucCh  = USART_ReceiveData( DEBUG_USART );
+		
+		if ( strUSART_Fram_Record .InfBit .FramLength < ( RX_BUF_MAX_LEN - 1 ) )                       //预留1个字节写结束符
+			   strUSART_Fram_Record .Data_RX_BUF [ strUSART_Fram_Record .InfBit .FramLength ++ ]  = ucCh;
+
+	}
+	 	 
+	if ( USART_GetITStatus( DEBUG_USART, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕
+	{
+    strUSART_Fram_Record .InfBit .FramFinishFlag = 1;		
+		
+		ucCh = USART_ReceiveData( DEBUG_USART );                                                              //由软件序列清除中断标志位(先读USART_SR，然后读USART_DR)	
+  }	
+}
+
+/**
+  * @brief  This function handles macESP8266_USARTx Handler.
+  * @param  None
+  * @retval None
+  */
+void macESP8266_USART_INT_FUN ( void )
+{	
+	uint8_t ucCh;
+	if ( USART_GetITStatus ( macESP8266_USARTx, USART_IT_RXNE ) != RESET )
+	{
+		ucCh  = USART_ReceiveData( macESP8266_USARTx );
+		
+		if ( strEsp8266_Fram_Record .InfBit .FramLength < ( RX_BUF_MAX_LEN - 1 ) )                       //预留1个字节写结束符
+			strEsp8266_Fram_Record .Data_RX_BUF [ strEsp8266_Fram_Record .InfBit .FramLength ++ ]  = ucCh;
+
+	}
+	 	 
+	if ( USART_GetITStatus( macESP8266_USARTx, USART_IT_IDLE ) == SET )                                         //数据帧接收完毕
+	{
+    strEsp8266_Fram_Record .InfBit .FramFinishFlag = 1;
+		
+		ucCh = USART_ReceiveData( macESP8266_USARTx );                                                              //由软件序列清除中断标志位(先读USART_SR，然后读USART_DR)
+  }	
+}
 /**
   * @}
   */ 
