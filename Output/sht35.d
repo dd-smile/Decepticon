@@ -37,8 +37,7 @@
 ..\..\output\sht35.o: ..\..\User\SHT35\sht35.h
 ..\..\output\sht35.o: ..\..\User\IIC\iic.h
 ..\..\output\sht35.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-..\..\output\sht35.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\sht35.o: ..\..\User\./dwt_delay/core_delay.h
 ..\..\output\sht35.o: ..\..\User\Sys\bsp_sys.h
 ..\..\output\sht35.o: ..\..\User\./usart/bsp_debug_usart.h
 ..\..\output\sht35.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\..\output\sht35.o: ..\..\User\./dwt_delay/core_delay.h

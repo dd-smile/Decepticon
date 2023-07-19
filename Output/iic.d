@@ -36,7 +36,7 @@
 ..\..\output\iic.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\iic.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 ..\..\output\iic.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-..\..\output\iic.o: ..\..\User\./systick/bsp_SysTick.h
+..\..\output\iic.o: ..\..\User\./dwt_delay/core_delay.h
 ..\..\output\iic.o: ..\..\User\Sys\bsp_sys.h
 ..\..\output\iic.o: ..\..\User\./usart/bsp_debug_usart.h
 ..\..\output\iic.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

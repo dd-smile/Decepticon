@@ -11,6 +11,7 @@
 #endif
 
 /******************************* ESP8266 数据类型定义 ***************************/
+//ESP8266 的模式选择(STA,AT,STA_AP)
 typedef enum
 {
    STA,
@@ -18,12 +19,14 @@ typedef enum
    STA_AP
 } ENUM_Net_ModeTypeDef;
 
+//ESP8266 的连接方式选择(TCP,UDP)
 typedef enum
 {
    enumTCP,
    enumUDP,
 } ENUM_NetPro_TypeDef;
 
+//模块连接服务器的ID
 typedef enum
 {
    Multiple_ID_0 = 0,
@@ -34,6 +37,7 @@ typedef enum
    Single_ID_0 = 5,
 } ENUM_ID_NO_TypeDef;
 
+//WiFi加密方式代号字符串
 typedef enum
 {
    OPEN = 0,

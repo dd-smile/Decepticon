@@ -46,8 +46,5 @@
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\..\output\main.o: ..\..\User\DHT11/bsp_dht11.h
 ..\..\output\main.o: ..\..\User\SHT35\sht35.h
-..\..\output\main.o: ..\..\User\MPU6050\mpu6050.h
 ..\..\output\main.o: ..\..\User\IIC\iic.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-..\..\output\main.o: ..\..\User\./systick/bsp_SysTick.h
-..\..\output\main.o: ..\..\User\IIC\mpu_iic.h

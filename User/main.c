@@ -15,11 +15,9 @@
 //传感器
 #include "DHT11/bsp_dht11.h"
 #include "sht35.h"
-#include "mpu6050.h"
 
 //通信协议
 #include "iic.h"
-#include "mpu_iic.h"
 
 /* MPU6050数据 */
 short Acel[3];
@@ -31,8 +29,10 @@ int main(void)
 
 	Debug_USART_Config();//串口初始化
 
-	SysTick_Init();//系统定时器初始化
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;//启动定时器
+	// SysTick_Init();//系统定时器初始化
+	// SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;//启动定时器
+
+	CPU_TS_TmrInit(); //初始化DWT计数器
 
 	LED_GPIO_Config();//RGB灯初始化
 
@@ -46,25 +46,26 @@ int main(void)
 
 	while(1)
 	{
-		//printf("\r\nSHT35\r\n");
-		//Delay_ms(1000);
-		//SHT35_init();   //SHT35串口显示温湿度数据
+		printf("\r\nSHT35\r\n");
+		Delay_ms(1000);
+		SHT35_init();   //SHT35串口显示温湿度数据
 		//LED_RGB_Init();   //LED_RGB循环显示流水灯
 		//Relay_Init();//控制继电器启动
-    if(strUSART_Fram_Record.InfBit.FramFinishFlag == 1)  //如果接收到了串口调试助手的数据
-		{
-			strUSART_Fram_Record.Data_RX_BUF[strUSART_Fram_Record.InfBit.FramLength] = '\0';
-			Usart_SendString(macESP8266_USARTx ,strUSART_Fram_Record.Data_RX_BUF);      //数据从串口调试助手转发到ESP8266
-			strUSART_Fram_Record.InfBit .FramLength = 0;                                //接收数据长度置零
-			strUSART_Fram_Record.InfBit .FramFinishFlag = 0;                            //接收标志置零
-	  }
-		if(strEsp8266_Fram_Record.InfBit .FramFinishFlag)                             //如果接收到了ESP8266的数据
-		{                                                      
-			 strEsp8266_Fram_Record.Data_RX_BUF[strEsp8266_Fram_Record.InfBit.FramLength] = '\0';
-			 Usart_SendString(DEBUG_USART ,strEsp8266_Fram_Record.Data_RX_BUF);        //数据从ESP8266转发到串口调试助手
-			 strEsp8266_Fram_Record.InfBit.FramLength = 0;                             //接收数据长度置零
-			 strEsp8266_Fram_Record.InfBit.FramFinishFlag = 0;                           //接收标志置零
-		}
+		
+//    if(strUSART_Fram_Record.InfBit.FramFinishFlag == 1)  //如果接收到了串口调试助手的数据
+//		{
+//			strUSART_Fram_Record.Data_RX_BUF[strUSART_Fram_Record.InfBit.FramLength] = '\0';
+//			Usart_SendString(macESP8266_USARTx ,strUSART_Fram_Record.Data_RX_BUF);      //数据从串口调试助手转发到ESP8266
+//			strUSART_Fram_Record.InfBit .FramLength = 0;                                //接收数据长度置零
+//			strUSART_Fram_Record.InfBit .FramFinishFlag = 0;                            //接收标志置零
+//	  }
+//		if(strEsp8266_Fram_Record.InfBit .FramFinishFlag)                             //如果接收到了ESP8266的数据
+//		{                                                      
+//			 strEsp8266_Fram_Record.Data_RX_BUF[strEsp8266_Fram_Record.InfBit.FramLength] = '\0';
+//			 Usart_SendString(DEBUG_USART ,strEsp8266_Fram_Record.Data_RX_BUF);        //数据从ESP8266转发到串口调试助手
+//			 strEsp8266_Fram_Record.InfBit.FramLength = 0;                             //接收数据长度置零
+//			 strEsp8266_Fram_Record.InfBit.FramFinishFlag = 0;                           //接收标志置零
+//		}
 
 	} 
 
