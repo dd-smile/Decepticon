@@ -99,11 +99,11 @@ extern struct STRUCT_USARTx_Fram strUSART_Fram_Record;
 #define macESP8266_USART_INT_FUN       USART3_IRQHandler
 
 /*********************************************** ESP8266 函数宏定义 *******************************************/
-#define macESP8266_Usart(fmt, ...) USART_printf(macESP8266_USARTx, fmt, ##__VA_ARGS__)
-#define macPC_Usart(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define macESP8266_Usart(fmt, ...)               USART_printf(macESP8266_USARTx, fmt, ##__VA_ARGS__)
+#define macPC_Usart(fmt, ...)                    printf(fmt, ##__VA_ARGS__)
 // #define     macPC_Usart( fmt, ... )
 
-#define macESP8266_CH_ENABLE() GPIO_SetBits(macESP8266_CH_PD_PORT, macESP8266_CH_PD_PIN)
+#define macESP8266_CH_ENABLE()                   GPIO_SetBits(macESP8266_CH_PD_PORT, macESP8266_CH_PD_PIN)
 #define macESP8266_CH_DISABLE() GPIO_ResetBits(macESP8266_CH_PD_PORT, macESP8266_CH_PD_PIN)
 
 #define macESP8266_RST_HIGH_LEVEL() GPIO_SetBits(macESP8266_RST_PORT, macESP8266_RST_PIN)
@@ -127,6 +127,12 @@ bool ESP8266_UnvarnishSend(void);
 void ESP8266_ExitUnvarnishSend(void);
 bool ESP8266_SendString(FunctionalState enumEnUnvarnishTx, char *pStr, u32 ulStrLength, ENUM_ID_NO_TypeDef ucId);
 char *ESP8266_ReceiveString(FunctionalState enumEnUnvarnishTx);
+
+void ESP8266_Clear(void);
+_Bool ESP8266_WaitRecive(void);
+_Bool ESP8266_SendCmd(char *cmd, char *res);
+void ESP8266_SendData(unsigned char *data, unsigned short len);
+unsigned char *ESP8266_GetIPD(unsigned short timeOut);
 
 #endif
 

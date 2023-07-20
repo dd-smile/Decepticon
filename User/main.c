@@ -58,7 +58,7 @@ int main(void)
 //			Usart_SendString(macESP8266_USARTx ,strUSART_Fram_Record.Data_RX_BUF);      //数据从串口调试助手转发到ESP8266
 //			strUSART_Fram_Record.InfBit .FramLength = 0;                                //接收数据长度置零
 //			strUSART_Fram_Record.InfBit .FramFinishFlag = 0;                            //接收标志置零
-//	  }
+//	    }
 //		if(strEsp8266_Fram_Record.InfBit .FramFinishFlag)                             //如果接收到了ESP8266的数据
 //		{                                                      
 //			 strEsp8266_Fram_Record.Data_RX_BUF[strEsp8266_Fram_Record.InfBit.FramLength] = '\0';

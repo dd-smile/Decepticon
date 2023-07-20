@@ -7,7 +7,7 @@
 static char * itoa( int value, char * string, int radix );
 
 /*
- * 函数名：USART2_printf
+ * 函数名：USART3_printf
  * 描述  ：格式化输出，类似于C库中的printf，但这里没有用到C库
  * 输入  ：-USARTx 串口通道，ESP8266用到了串口3，即USART3
  *		     -Data   要发送到串口的内容的指针

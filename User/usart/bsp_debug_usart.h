@@ -34,4 +34,5 @@
 void Debug_USART_Config(void);
 //int fputc(int ch, FILE *f);
 void Usart_SendString( USART_TypeDef * pUSARTx, char *str);
+void UsartPrintf(USART_TypeDef *USARTx, char *fmt,...);
 #endif /* __USART1_H */
