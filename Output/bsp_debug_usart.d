@@ -36,3 +36,5 @@
 ..\..\output\bsp_debug_usart.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 ..\..\output\bsp_debug_usart.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 ..\..\output\bsp_debug_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\..\output\bsp_debug_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\..\output\bsp_debug_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

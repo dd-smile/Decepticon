@@ -16,19 +16,16 @@
 //C库
 #include <string.h>
 #include <stdio.h>
-//#include "cJSON.h"
+#include "cJSON.h"
 
 
 #define PROID		"admin"
 
 #define AUTH_INFO	"public"
 
-#define DEVID		"avant9999"
+#define DEVID		"avant7815"
 
-uint8_t task_switch = 0xff;   //定义task开关初始化值
 uint8_t led_switch = 0xff;    //定义led开关初始化值
-
-extern unsigned char esp8266_buf[128];
 
 
 //==========================================================
@@ -57,7 +54,8 @@ _Bool AvantNet_DevLink(void)
 	
 	if(MQTT_PacketConnect(PROID, AUTH_INFO, DEVID, 256, 0, MQTT_QOS_LEVEL0, NULL, NULL, 0, &mqttPacket) == 0)
 	{
-		ESP8266_SendData(mqttPacket._data, mqttPacket._len);			//上传平台
+		while( ! ESP8266_UnvarnishSend () );
+		ESP8266_SendData(mqttPacket._data);			//上传平台
 		
 		dataPtr = ESP8266_GetIPD(250);									//等待平台响应
 		if(dataPtr != NULL)
@@ -112,7 +110,7 @@ void AvantNet_Subscribe(const char *topics[], unsigned char topic_cnt)
 	
 	if(MQTT_PacketSubscribe(MQTT_SUBSCRIBE_ID, MQTT_QOS_LEVEL0, topics, topic_cnt, &mqttPacket) == 0)
 	{
-		ESP8266_SendData(mqttPacket._data, mqttPacket._len);					//向平台发送订阅请求
+		//ESP8266_SendData(mqttPacket._data, mqttPacket._len);					//向平台发送订阅请求
 		
 		MQTT_DeleteBuffer(&mqttPacket);											//删包
 	}
@@ -140,7 +138,8 @@ void AvantNet_Publish(const char *topic, const char *msg)
 	
 	if(MQTT_PacketPublish(MQTT_PUBLISH_ID, topic, msg, strlen(msg), MQTT_QOS_LEVEL1, 0, 1, &mqttPacket) == 0)
 	{
-		ESP8266_SendData(mqttPacket._data, mqttPacket._len);					//向平台发送订阅请求
+		ESP8266_SendData(mqttPacket._data);					//向平台发送订阅请求
+		//ESP8266_SendString(mqttPacket._data);
 		
 		MQTT_DeleteBuffer(&mqttPacket);											//删包
 	}
@@ -160,13 +159,12 @@ void AvantNet_Publish(const char *topic, const char *msg)
 //==========================================================
 void AvantNet_RevPro(unsigned char *cmd)
 {
-	LED_Init();
+	
 	MQTT_PACKET_STRUCTURE mqttPacket = {NULL, 0, 0, 0};								//协议包
 	
 	char *req_payload = NULL;
 	char *cmdid_topic = NULL;
 	char *led_topic = "/mytopic/sub";
-	char *task_topic = "/mytopic/task";
 	
 	unsigned short topic_len = 0;
 	unsigned short req_len = 0;
@@ -182,7 +180,6 @@ void AvantNet_RevPro(unsigned char *cmd)
 	int num = 0;
 	
 	cJSON *json, *json_value;
-	cJSON *json_task, *task_value;
 	
 	type = MQTT_UnPacketRecv(cmd);
 	switch(type)
@@ -215,75 +212,30 @@ void AvantNet_RevPro(unsigned char *cmd)
 				 
 				if((strcmp(cmdid_topic,led_topic) == 0))    //判断是否是led灯开关主题
 				{
-					//解析数据包
-					json = cJSON_Parse(req_payload);
-					if(!json)UsartPrintf(DEBUG_USART,"Error before: [%s]\n",cJSON_GetErrorPtr());
-					else
-					{
-						json_value = cJSON_GetObjectItem(json,"LED_SW");
-						UsartPrintf(DEBUG_USART,"json_value = %d\r\n",json_value);
-						if(json_value->valueint)//json_value > 0 且为整型
-						{
-							//打开led
-							LED2_ON();
-							led_switch = 1;  //用于开关喂食系统的标志位
-						}
-						else
-						{
-							//关闭led
-							LED2_OFF();
-							led_switch = 0;
-						}
-					}
-					//删json包, 防止内存炸
-					cJSON_Delete(json);
-					Delay_ms(500);
-				}else if((strcmp(cmdid_topic,task_topic) == 0))    //判断是否是task开关主题
-				{
-					//解析数据包
-					json_task = cJSON_Parse(req_payload);
-					if(!json_task)UsartPrintf(DEBUG_USART,"Error before: [%s]\n",cJSON_GetErrorPtr());
-					else
-					{
-						task_value = cJSON_GetObjectItem(json_task,"TASK_SW");
-						UsartPrintf(DEBUG_USART,"task_value = %d\r\n",task_value);
-						if(json_value->valueint)//json_value > 0 且为整型
-						{
-							//UsartPrintf(DEBUG_USART,"kkkkkkkkkk json_value = %d\r\n",json_value);
-							task_switch = 1;   //如果有收到TASK_SW,且值为1就把task开关置为1
-						}
-					//删json包, 防止内存炸
-					cJSON_Delete(json_task);
-					Delay_ms(500);
-					}
-				}
-				
-				/*
-				原始代码.
-				*/
-//				//解析数据包
-//				json = cJSON_Parse(req_payload);
-//				if(!json)UsartPrintf(DEBUG_USART,"Error before: [%s]\n",cJSON_GetErrorPtr());
-//				else
-//				{
-//					json_value = cJSON_GetObjectItem(json,"LED_SW");
-//					UsartPrintf(DEBUG_USART,"json_value = %d\r\n",json_value);
-//					if(json_value->valueint)//json_value > 0 且为整型
-//					{
-//						//打开led
-//						LED2_ON();
-//						UsartPrintf(DEBUG_USART,"kkkkkkkkkk json_value = %d\r\n",json_value);
-//					}
-//					else
-//					{
-//						//关闭led
-//						LED2_OFF();
-//						UsartPrintf(DEBUG_USART,"gggggggggg json_value = %d\r\n",json_value);
-//					}
-//				}
-//				//删json包, 防止内存炸
-//				cJSON_Delete(json);
-//				Delay_ms(500);
+				    //解析数据包
+                    json = cJSON_Parse(req_payload);
+                    if(!json)UsartPrintf(DEBUG_USART,"Error before: [%s]\n",cJSON_GetErrorPtr());
+                    else
+                    {
+                        json_value = cJSON_GetObjectItem(json,"LED_SW");
+                        UsartPrintf(DEBUG_USART,"json_value = %d\r\n",json_value);
+                        if(json_value->valueint)//json_value > 0 且为整型
+                        {
+                            //打开led
+                            LED1_TOGGLE;
+                            UsartPrintf(DEBUG_USART,"kkkkkkkkkk json_value = %d\r\n",json_value);
+                        }
+                        else
+                        {
+                            //关闭led
+                            LED2_TOGGLE;
+                            UsartPrintf(DEBUG_USART,"gggggggggg json_value = %d\r\n",json_value);
+                        }
+                    }
+                    //删json包, 防止内存炸
+                    cJSON_Delete(json);
+                    Delay_ms(500);
+                }
 			}
 		
 		break;
@@ -303,7 +255,7 @@ void AvantNet_RevPro(unsigned char *cmd)
 				if(MQTT_PacketPublishRel(MQTT_PUBLISH_ID, &mqttPacket) == 0)
 				{
 					UsartPrintf(DEBUG_USART, "Tips:	Send PublishRel\r\n");
-					ESP8266_SendData(mqttPacket._data, mqttPacket._len);
+					//ESP8266_SendData(mqttPacket._data, mqttPacket._len);
 					MQTT_DeleteBuffer(&mqttPacket);
 				}
 			}
@@ -318,7 +270,7 @@ void AvantNet_RevPro(unsigned char *cmd)
 				if(MQTT_PacketPublishComp(MQTT_PUBLISH_ID, &mqttPacket) == 0)
 				{
 					UsartPrintf(DEBUG_USART, "Tips:	Send PublishComp\r\n");
-					ESP8266_SendData(mqttPacket._data, mqttPacket._len);
+					//ESP8266_SendData(mqttPacket._data, mqttPacket._len);
 					MQTT_DeleteBuffer(&mqttPacket);
 				}
 			}
@@ -357,7 +309,7 @@ void AvantNet_RevPro(unsigned char *cmd)
 		break;
 	}
 	
-	ESP8266_Clear();									//清空缓存
+	//ESP8266_Clear();									//清空缓存
 	
 	if(result == -1)
 		return;

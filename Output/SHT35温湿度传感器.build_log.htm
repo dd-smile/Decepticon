@@ -22,14 +22,25 @@ Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
 D:\ARM\demo\Decepticon\Project\RVMDK（uv5）\BH-F407.uvprojx
-Project File Date:  07/17/2023
+Project File Date:  07/21/2023
 
 <h2>Output:</h2>
 Build target '云场馆'
 compiling main.c...
+..\..\User\main.c(51): warning:  #177-D: variable "PUB_BUF" was declared but never referenced
+        char PUB_BUF[256];    //涓婁紶鏁版嵁鐨凚UF
+..\..\User\main.c(52): warning:  #177-D: variable "temp" was declared but never referenced
+        uint8_t temp = 26,hum = 30;
+..\..\User\main.c(52): warning:  #177-D: variable "hum" was declared but never referenced
+        uint8_t temp = 26,hum = 30;
+..\..\User\main.c(53): warning:  #177-D: variable "CO2Data" was declared but never referenced
+        uint32_t CO2Data = 500;
+..\..\User\main.c: 4 warnings, 0 errors
+compiling stm32f4xx_it.c...
+compiling esp8266_apply.c...
 linking...
-Program Size: Code=7708 RO-data=424 RW-data=40 ZI-data=3112  
-"..\..\Output\SHT35温湿度传感器.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=10072 RO-data=516 RW-data=88 ZI-data=3720  
+"..\..\Output\SHT35温湿度传感器.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\ARM\demo\Decepticon\Project\RVMDK（uv5）\RTE

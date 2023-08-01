@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35;..\..\User\Led;..\..\User\Key;..\..\User\Relay;..\..\User\MPU6050;..\..\User\WIFI;..\..\User\usart</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\Libraries\CMSIS\Include;..\..\User;..\..\User\IIC;..\..\User\Sys;..\..\User\SHT35;..\..\User\Led;..\..\User\Key;..\..\User\Relay;..\..\User\MPU6050;..\..\User\WIFI;..\..\User\usart;..\..\User\MQTT;..\..\User\Tool</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -841,6 +841,26 @@
               <FileName>esp8266.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\WIFI\esp8266.c</FilePath>
+            </File>
+            <File>
+              <FileName>Avantnet.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\MQTT\Avantnet.c</FilePath>
+            </File>
+            <File>
+              <FileName>MqttKit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\MQTT\MqttKit.c</FilePath>
+            </File>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\Tool\cJSON.c</FilePath>
+            </File>
+            <File>
+              <FileName>esp8266_apply.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\WIFI\esp8266_apply.c</FilePath>
             </File>
           </Files>
         </Group>

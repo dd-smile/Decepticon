@@ -60,7 +60,7 @@ uint8_t Key_Scan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin)
 
 		if ( Key_Scan(KEY2_GPIO_PORT,KEY2_PIN) == KEY_ON  ) {
 				
-				LED2_TOGGLE;
+			LED2_TOGGLE;
 		}
 
 */

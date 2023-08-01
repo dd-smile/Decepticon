@@ -40,4 +40,5 @@
 ..\..\output\stm32f4xx_it.o: ..\..\User\usart\bsp_wifi_usart.h
 ..\..\output\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\..\output\stm32f4xx_it.o: ..\..\User\WIFI\esp8266_apply.h
 ..\..\output\stm32f4xx_it.o: ..\..\User\./usart/bsp_debug_usart.h

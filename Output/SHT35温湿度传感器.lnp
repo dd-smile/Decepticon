@@ -54,6 +54,10 @@
 "..\..\output\mpu6050.o"
 "..\..\output\bsp_wifi_usart.o"
 "..\..\output\esp8266.o"
+"..\..\output\avantnet.o"
+"..\..\output\mqttkit.o"
+"..\..\output\cjson.o"
+"..\..\output\esp8266_apply.o"
 --library_type=microlib --strict --scatter "..\..\Output\SHT35ÎÂÊª¶È´«¸ÐÆ÷.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

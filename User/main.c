@@ -11,6 +11,7 @@
 
 //硬件驱动
 #include "esp8266.h"
+#include "esp8266_apply.h"
 
 //传感器
 #include "DHT11/bsp_dht11.h"
@@ -18,6 +19,11 @@
 
 //通信协议
 #include "iic.h"
+#include "avantnet.h"
+
+//C库
+#include <stdio.h>
+
 
 /* MPU6050数据 */
 short Acel[3];
@@ -40,32 +46,40 @@ int main(void)
 
 	RELAY_GPIO_Config();//继电器IO初始化
 
-  	ESP8266_Init();//WIFI模块初始化
+  ESP8266_Init();//WIFI模块初始化(使用的接口和外设)
 
-  	macESP8266_CH_ENABLE();//使能
+	char PUB_BUF[256];    //上传数据的BUF
+	uint8_t temp = 26,hum = 30;
+	uint32_t CO2Data = 500;
+
+
+	ESP8266_MQTTConnection();
+
+	while(AvantNet_DevLink())
+	Delay_ms(500);
+
 
 	while(1)
 	{
-		printf("\r\nSHT35\r\n");
-		Delay_ms(1000);
-		SHT35_init();   //SHT35串口显示温湿度数据
+		
+		//ESP8266_CheckRecvDataTest();
+
+		//printf("\r\nSHT35\r\n");
+		//Delay_ms(1000);
+		//SHT35_init();   //SHT35串口显示温湿度数据
 		//LED_RGB_Init();   //LED_RGB循环显示流水灯
 		//Relay_Init();//控制继电器启动
-		
-//    if(strUSART_Fram_Record.InfBit.FramFinishFlag == 1)  //如果接收到了串口调试助手的数据
-//		{
-//			strUSART_Fram_Record.Data_RX_BUF[strUSART_Fram_Record.InfBit.FramLength] = '\0';
-//			Usart_SendString(macESP8266_USARTx ,strUSART_Fram_Record.Data_RX_BUF);      //数据从串口调试助手转发到ESP8266
-//			strUSART_Fram_Record.InfBit .FramLength = 0;                                //接收数据长度置零
-//			strUSART_Fram_Record.InfBit .FramFinishFlag = 0;                            //接收标志置零
-//	    }
-//		if(strEsp8266_Fram_Record.InfBit .FramFinishFlag)                             //如果接收到了ESP8266的数据
-//		{                                                      
-//			 strEsp8266_Fram_Record.Data_RX_BUF[strEsp8266_Fram_Record.InfBit.FramLength] = '\0';
-//			 Usart_SendString(DEBUG_USART ,strEsp8266_Fram_Record.Data_RX_BUF);        //数据从ESP8266转发到串口调试助手
-//			 strEsp8266_Fram_Record.InfBit.FramLength = 0;                             //接收数据长度置零
-//			 strEsp8266_Fram_Record.InfBit.FramFinishFlag = 0;                           //接收标志置零
-//		}
+
+		//  UsartPrintf(DEBUG_USART,"EMQX_Public");
+		//  sprintf(PUB_BUF,"{\"Temp\":%d,\"Hum\":%d,\"Co2\":%d}",temp,hum,CO2Data);
+		//  AvantNet_Publish("/avant/pub", PUB_BUF);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
+		//  Delay_ms(1000);
 
 	} 
 

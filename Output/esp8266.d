@@ -38,5 +38,6 @@
 ..\..\output\esp8266.o: ..\..\User\usart\bsp_wifi_usart.h
 ..\..\output\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\..\output\esp8266.o: ..\..\User\./usart/bsp_debug_usart.h
 ..\..\output\esp8266.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\..\output\esp8266.o: ..\..\User\./dwt_delay/core_delay.h

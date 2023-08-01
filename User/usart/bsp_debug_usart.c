@@ -16,6 +16,10 @@
   */ 
   
 #include "./usart/bsp_debug_usart.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdarg.h>
+
  \
  /**
   * @brief  配置嵌套向量中断控制器NVIC
@@ -171,7 +175,6 @@ int fgetc(FILE *f)
 
 		return (int)USART_ReceiveData(DEBUG_USART);
 }
-
 
 /*
 ************************************************************

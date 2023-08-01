@@ -1,25 +1,28 @@
 #include "bsp_wifi_usart.h"
+#include "./usart/bsp_debug_usart.h"
 #include "stm32f4xx.h"
 #include <stdarg.h>
 
 
-//将整形数据转换成字符串
-static char * itoa( int value, char * string, int radix );
+
+static char *  itoa( int value, char * string, int radix );
+
+
 
 /*
  * 函数名：USART3_printf
  * 描述  ：格式化输出，类似于C库中的printf，但这里没有用到C库
- * 输入  ：-USARTx 串口通道，ESP8266用到了串口3，即USART3
+ * 输入  ：-USARTx 串口通道
  *		     -Data   要发送到串口的内容的指针
  *			   -...    其他参数
  * 输出  ：无
  * 返回  ：无 
  * 调用  ：外部调用
- *         典型应用USART3_printf( USART3, "\r\n this is a demo \r\n" );
- *            		 USART3_printf( USART3, "\r\n %d \r\n", i );
- *            		 USART3_printf( USART3, "\r\n %s \r\n", j );
+ *         典型应用USART2_printf( USART2, "\r\n this is a demo \r\n" );
+ *            		 USART2_printf( USART2, "\r\n %d \r\n", i );
+ *            		 USART2_printf( USART2, "\r\n %s \r\n", j );
  */
-void USART_printf ( USART_TypeDef * USARTx, char * Data, ... )
+void USART_printf ( USART_TypeDef * USARTx, unsigned char * Data, ... )
 {
 	const char *s;
 	int d;   
@@ -99,6 +102,45 @@ void USART_printf ( USART_TypeDef * USARTx, char * Data, ... )
 	}
 }
 
+/*
+ * 函数名：USART_SendByteWifi
+ * 描述  ：发送一个字节
+ * 输入  ：-USARTx 串口号
+ *         -Byte 要发送的字节
+ * 输出  ：无
+ * 返回  ：无
+ * 调用  ：被Usart_SendStringWifi 调用
+ */
+void USART_SendByteWifi ( USART_TypeDef * USARTx, uint8_t Byte )
+{
+	USART_SendData(USARTx,Byte);
+		
+	/* 等待发送数据寄存器为空 */
+	while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
+}
+
+/*
+ * 函数名：Usart_SendStringWifi
+ * 描述  ：发送字符串
+ * 输入  ：-USARTx 串口号
+ *         -str 要发送的字符串
+ * 输出  ：无
+ * 返回  ：无
+ * 调用  ：被外部调用
+ */
+void Usart_SendStringWifi( USART_TypeDef * USARTx, char *str)
+{
+	unsigned int k=0;
+  do 
+  {
+      USART_SendByteWifi( USARTx, *(str + k) );
+      k++;
+  } while(*(str + k)!='\0');
+  
+  /* 等待发送完成 */
+  while(USART_GetFlagStatus(USARTx,USART_FLAG_TC)==RESET)
+  {}
+}
 
 /*
  * 函数名：itoa
@@ -109,7 +151,7 @@ void USART_printf ( USART_TypeDef * USARTx, char * Data, ... )
  *         -radix = 10
  * 输出  ：无
  * 返回  ：无
- * 调用  ：被USART3_printf()调用
+ * 调用  ：被USART2_printf()调用
  */
 static char * itoa( int value, char *string, int radix )
 {
@@ -158,4 +200,9 @@ static char * itoa( int value, char *string, int radix )
 
 	return string;
 
-} /* NCL_Itoa */
+} 
+
+
+
+
+

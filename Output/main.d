@@ -44,7 +44,9 @@
 ..\..\output\main.o: ..\..\User\WIFI\esp8266.h
 ..\..\output\main.o: ..\..\User\usart\bsp_wifi_usart.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\..\output\main.o: ..\..\User\WIFI\esp8266_apply.h
 ..\..\output\main.o: ..\..\User\DHT11/bsp_dht11.h
 ..\..\output\main.o: ..\..\User\SHT35\sht35.h
 ..\..\output\main.o: ..\..\User\IIC\iic.h
 ..\..\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+..\..\output\main.o: ..\..\User\MQTT\avantnet.h
